@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_migrate import Migrate
+from flask.json.provider import DefaultJSONProvider
 from .api.api_users import api_bp
 from .api.authorization import auth_bp
 from .api.api_profile import api_pf_bp
@@ -8,10 +9,14 @@ from .config.swagger import Swagger
 from .model import db, create_db
 from .config.config import Config
 
+class CustomJsonProvider(DefaultJSONProvider):
+    sort_keys = False
+
 migrate = Migrate()
 
 def create_app():
     app = Flask(__name__)
+    app.json = CustomJsonProvider(app)
     Config.init_app(app)
     Swagger.init_app(app)    
     db.init_app(app)
@@ -23,6 +28,7 @@ def create_app():
     app.register_blueprint(api_pf_bp, url_prefix='/api')
 
     with app.app_context():
+        app.config['JSON_SORT_KEYS'] = False
         create_db(app.config["SQLALCHEMY_DATABASE_URI"])
         db.create_all()        
 

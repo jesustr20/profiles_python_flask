@@ -11,7 +11,8 @@ class UserModel(db.Model):
     username = db.Column(db.String(200), nullable=False, unique=True)
     password = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(200), nullable=False, unique=True)
-
+    profile = db.relationship('ProfileModel', backref='user', lazy=True)
+    
     def set_category(self):
         self.category = PersonType.MENOR
         if self.age >= 18:

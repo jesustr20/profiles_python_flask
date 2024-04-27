@@ -12,7 +12,6 @@ class ProfileModel(db.Model):
     document = db.Column(db.String(10), nullable=False, unique=True)
     gender = db.Column(db.Enum(Gender), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    #user = db.relationship('UserModel', backref=db.backref('profile', lazy=True))
 
     def update(self, data):
         for key, value in data.items():
