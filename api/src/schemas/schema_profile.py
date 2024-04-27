@@ -8,6 +8,7 @@ class ProfileSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = ProfileModel
         load_instance = True
+        fields = ('id','nickname', 'fname', 'lname', 'document', 'gender','user_id')
     
     gender = Enum(Gender, by_value=True, required=False)
     user_id = fields.Inferred()
